@@ -1,0 +1,17 @@
+{
+  "name": "ERA2 Card",
+  "short_name": "ERA2",
+  "description": "AI-карточки для маркетплейсов",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#C6F94D",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

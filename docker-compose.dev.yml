@@ -1,0 +1,62 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: era2
+      POSTGRES_PASSWORD: era2pass
+      POSTGRES_DB: era2card
+    volumes:
+      - dev_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U era2 -d era2card"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 4000 --reload
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./api/.env
+    environment:
+      - DATABASE_URL=postgresql://era2:era2pass@db:5432/era2card
+      - FRONTEND_URL=http://localhost:3000
+      - API_BASE_URL=http://localhost:4000
+    volumes:
+      - ./api:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  app:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+      - NEXT_PUBLIC_VK_CLIENT_ID=54611845
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/app
+      - dev_node_modules:/app/node_modules
+      - dev_next_cache:/app/.next
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  dev_postgres_data:
+  dev_node_modules:
+  dev_next_cache:

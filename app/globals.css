@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-lime: #c6f94d;
+    --color-lime-hi: #b8ee38;
+    --color-ink: #0a0a0f;
+    --color-surface: #ffffff;
+    --color-surface-2: #f7f7f8;
+    --color-line: #ececef;
+    --color-muted: #6b7280;
+
+    /* Шрифты подключаются через <link> в layout.tsx */
+    --font-inter: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+      sans-serif;
+    --font-unbounded: 'Unbounded', 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas,
+      monospace;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans;
+    font-feature-settings: 'ss01', 'cv11';
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  /* Скрываем стрелки у number inputs */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Кастомный scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d4d4d8;
+    border-radius: 8px;
+    border: 2px solid var(--color-surface);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a1a1aa;
+  }
+}
+
+@layer components {
+  /* Тонкая dot-сетка как у Aidentika */
+  .dot-grid {
+    background-image: radial-gradient(
+      circle,
+      rgba(10, 10, 15, 0.07) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  .dot-grid-dark {
+    background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* Checkerboard для прозрачности */
+  .checkerboard {
+    background-image:
+      linear-gradient(45deg, #e8e8eb 25%, transparent 25%),
+      linear-gradient(-45deg, #e8e8eb 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #e8e8eb 75%),
+      linear-gradient(-45deg, transparent 75%, #e8e8eb 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    background-color: #f5f5f6;
+  }
+
+  /* Стандартный border ring как в Aidentika */
+  .card-base {
+    @apply rounded-3xl border border-line bg-surface shadow-card transition-all duration-300;
+  }
+  .card-base:hover {
+    @apply shadow-card-hover -translate-y-0.5;
+  }
+
+  /* Скрытие скролла там, где не нужен */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Предотвращаем zoom на iOS при фокусе на инпутах (font-size < 16px триггерит zoom) */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Анимация появления tooltip */
+@keyframes tooltipIn {
+  from {
+    opacity: 0;
+    transform: translate(var(--tw-translate-x, 0), 4px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(var(--tw-translate-x, 0), 0) scale(1);
+  }
+}

@@ -1,0 +1,13 @@
+.git
+.gitignore
+.next
+node_modules
+.env*.local
+*.md
+*.docx
+Dockerfile
+.dockerignore
+.eslintrc.json
+.vscode
+.idea
+era2-card-ideas-only

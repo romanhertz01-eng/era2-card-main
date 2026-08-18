@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- background -->
+  <rect width="32" height="32" rx="8" fill="#0A0A0F"/>
+  <!-- E letterform (scaled from Logo.tsx path, 28→32) -->
+  <path d="M9 9h14v4H13v3.5h8v4h-8v3.5h10v3.5H9V9z" fill="#C6F94D"/>
+  <!-- ² badge (bottom-right) -->
+  <circle cx="27" cy="27" r="5" fill="#C6F94D"/>
+  <text x="27" y="30.5" text-anchor="middle" dominant-baseline="auto"
+        font-family="Arial,Helvetica,sans-serif" font-size="7.5" font-weight="800" fill="#0A0A0F">2</text>
+</svg>
